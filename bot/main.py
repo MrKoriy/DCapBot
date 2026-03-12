@@ -10,6 +10,7 @@ uvloop.install()
 from aiogram import Bot, Dispatcher
 
 from bot.config import get_settings
+from bot.handlers.payment import payment_router
 from bot.handlers.user import user_router
 from bot.middlewares.db import DbSessionMiddleware
 from bot.middlewares.user import UserMiddleware
@@ -32,6 +33,7 @@ async def main() -> None:
     dp.update.middleware(UserMiddleware())
 
     dp.include_router(user_router)
+    dp.include_router(payment_router)
 
     logger.info("Bot starting...")
     await dp.start_polling(bot)

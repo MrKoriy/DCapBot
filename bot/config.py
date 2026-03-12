@@ -12,6 +12,7 @@ class Settings(BaseSettings):
     database_url: str
     channel_id: int
     admin_ids: list[int]
+    bot_username: str
 
     plan_1_name: str
     plan_1_price: int
