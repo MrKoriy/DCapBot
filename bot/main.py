@@ -11,6 +11,7 @@ from aiohttp import web
 from aiogram import Bot, Dispatcher
 
 from bot.config import get_settings
+from bot.handlers.admin import admin_router
 from bot.handlers.payment import payment_router
 from bot.handlers.user import user_router
 from bot.middlewares.db import DbSessionMiddleware
@@ -37,6 +38,7 @@ async def main() -> None:
 
     dp.include_router(user_router)
     dp.include_router(payment_router)
+    dp.include_router(admin_router)
 
     # APScheduler: persistent job store for subscription lifecycle tasks
     scheduler = setup_scheduler(bot)
