@@ -66,3 +66,18 @@ class AdminRepository:
         revenue = revenue_result.scalar_one()
 
         return {"active": active, "expired": expired, "revenue": revenue}
+
+    async def find_user_by_telegram_id(self, telegram_id: int) -> User | None:
+        """Find a user by their Telegram ID."""
+        result = await self._session.execute(
+            select(User).where(User.telegram_id == telegram_id)
+        )
+        return result.scalar_first()
+
+    async def find_user_by_username(self, username: str) -> User | None:
+        """Find a user by username (case-insensitive, strips leading @)."""
+        username = username.lstrip("@")
+        result = await self._session.execute(
+            select(User).where(func.lower(User.username) == username.lower())
+        )
+        return result.scalar_first()
