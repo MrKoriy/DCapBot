@@ -1,0 +1,28 @@
+[project]
+name = "dcapbot"
+version = "0.1.0"
+description = "Telegram subscription bot for paid channel access"
+requires-python = ">=3.11"
+
+dependencies = [
+    "aiogram==3.26.0",
+    "sqlalchemy==2.0.48",
+    "asyncpg==0.31.0",
+    "alembic==1.18.4",
+    "apscheduler==3.11.2",
+    "yookassa==3.10.0",
+    "pydantic-settings==2.13.1",
+    "uvloop",
+]
+
+[project.optional-dependencies]
+dev = [
+    "ruff",
+    "mypy",
+    "pytest",
+    "pytest-asyncio",
+]
+
+[tool.ruff]
+line-length = 99
+target-version = "py311"
