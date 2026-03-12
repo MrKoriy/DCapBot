@@ -14,10 +14,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Payment
 
-- [ ] **PAY-01**: User can pay for selected plan via YooKassa
-- [ ] **PAY-02**: Bot generates YooKassa invoice with correct fiscal receipt (54-FZ)
+- [x] **PAY-01**: User can pay for selected plan via YooKassa
+- [x] **PAY-02**: Bot generates YooKassa invoice with correct fiscal receipt (54-FZ)
 - [ ] **PAY-03**: Bot confirms payment via YooKassa webhook/callback
-- [ ] **PAY-04**: Payment record is persisted in PostgreSQL with idempotency (unique payment_id)
+- [x] **PAY-04**: Payment record is persisted in PostgreSQL with idempotency (unique payment_id)
 
 ### Channel Access
 
@@ -87,10 +87,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 |-------------|-------|--------|
 | ONBR-01 | Phase 1 | Complete |
 | ONBR-02 | Phase 1 | Complete |
-| PAY-01 | Phase 2 | Pending |
-| PAY-02 | Phase 2 | Pending |
+| PAY-01 | Phase 2 | Complete |
+| PAY-02 | Phase 2 | Complete |
 | PAY-03 | Phase 2 | Pending |
-| PAY-04 | Phase 2 | Pending |
+| PAY-04 | Phase 2 | Complete |
 | ACC-01 | Phase 2 | Pending |
 | ACC-02 | Phase 2 | Pending |
 | ACC-03 | Phase 2 | Pending |
