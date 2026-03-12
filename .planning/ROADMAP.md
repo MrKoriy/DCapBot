@@ -13,7 +13,7 @@ DCapBot delivers paid Telegram channel access in 4 phases: scaffold the bot and 
 Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Bot Foundation** - Running bot with DB, config, /start with plan selection (completed 2026-03-12)
-- [ ] **Phase 2: Payment and Channel Access** - User pays via YooKassa and receives invite link
+- [x] **Phase 2: Payment and Channel Access** - User pays via YooKassa and receives invite link (completed 2026-03-12)
 - [ ] **Phase 3: Subscription Lifecycle** - Automated reminders, expiry kicks, ghost sweeps, user self-service
 - [ ] **Phase 4: Admin Panel** - Subscriber list, stats, manual grant/revoke
 
@@ -60,11 +60,11 @@ Plans:
   3. Bot periodically sweeps channel members and kicks anyone without an active subscription
   4. User can check subscription status and payment history via /status or inline buttons
   5. Expired user can re-subscribe via /start and receive a new invite link (unban-before-invite flow)
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
+- [ ] 03-01-PLAN.md — APScheduler with SQLAlchemyJobStore, expiry kicks, reminders, ghost sweep
+- [ ] 03-02-PLAN.md — User self-service (/status, payment history, updated /start for returning users)
 
 ### Phase 4: Admin Panel
 **Goal**: Channel owner can view subscribers, see statistics, and manually manage subscriptions through bot commands
@@ -88,6 +88,6 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Bot Foundation | 0/? | Complete    | 2026-03-12 |
-| 2. Payment and Channel Access | 0/? | Not started | - |
-| 3. Subscription Lifecycle | 0/? | Not started | - |
+| 2. Payment and Channel Access | 0/? | Complete    | 2026-03-12 |
+| 3. Subscription Lifecycle | 1/2 | In progress | - |
 | 4. Admin Panel | 0/? | Not started | - |

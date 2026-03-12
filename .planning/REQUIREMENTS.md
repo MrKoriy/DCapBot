@@ -32,9 +32,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Subscription Lifecycle
 
-- [ ] **LIFE-01**: Bot sends reminder 3 days before subscription expiry
-- [ ] **LIFE-02**: Bot auto-kicks user from channel when subscription expires (ban + unban pattern)
-- [ ] **LIFE-03**: Bot periodically sweeps channel for "ghost" members without active subscription
+- [x] **LIFE-01**: Bot sends reminder 3 days before subscription expiry
+- [x] **LIFE-02**: Bot auto-kicks user from channel when subscription expires (ban + unban pattern)
+- [x] **LIFE-03**: Bot periodically sweeps channel for "ghost" members without active subscription
 - [ ] **LIFE-04**: Expired user can re-subscribe via /start and get new invite link
 
 ### Admin Panel
@@ -49,7 +49,7 @@ Requirements for initial release. Each maps to roadmap phases.
 - [x] **INFR-01**: Bot runs on VPS as systemd service with long-polling
 - [x] **INFR-02**: Subscription plans and prices configurable via .env
 - [x] **INFR-03**: Database migrations managed via Alembic
-- [ ] **INFR-04**: Scheduler persists jobs across bot restarts (SQLAlchemyJobStore)
+- [x] **INFR-04**: Scheduler persists jobs across bot restarts (SQLAlchemyJobStore)
 
 ## v2 Requirements
 
@@ -96,9 +96,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ACC-03 | Phase 2 | Complete |
 | USR-01 | Phase 3 | Pending |
 | USR-02 | Phase 3 | Pending |
-| LIFE-01 | Phase 3 | Pending |
-| LIFE-02 | Phase 3 | Pending |
-| LIFE-03 | Phase 3 | Pending |
+| LIFE-01 | Phase 3 | Complete |
+| LIFE-02 | Phase 3 | Complete |
+| LIFE-03 | Phase 3 | Complete |
 | LIFE-04 | Phase 3 | Pending |
 | ADM-01 | Phase 4 | Pending |
 | ADM-02 | Phase 4 | Pending |
@@ -107,7 +107,7 @@ Which phases cover which requirements. Updated during roadmap creation.
 | INFR-01 | Phase 1 | Complete |
 | INFR-02 | Phase 1 | Complete |
 | INFR-03 | Phase 1 | Complete |
-| INFR-04 | Phase 3 | Pending |
+| INFR-04 | Phase 3 | Complete |
 
 **Coverage:**
 - v1 requirements: 23 total
