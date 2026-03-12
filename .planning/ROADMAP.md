@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Bot Foundation** - Running bot with DB, config, /start with plan selection (completed 2026-03-12)
 - [x] **Phase 2: Payment and Channel Access** - User pays via YooKassa and receives invite link (completed 2026-03-12)
-- [ ] **Phase 3: Subscription Lifecycle** - Automated reminders, expiry kicks, ghost sweeps, user self-service
+- [x] **Phase 3: Subscription Lifecycle** - Automated reminders, expiry kicks, ghost sweeps, user self-service (completed 2026-03-12)
 - [ ] **Phase 4: Admin Panel** - Subscriber list, stats, manual grant/revoke
 
 ## Phase Details
@@ -75,10 +75,11 @@ Plans:
   2. Admin can see subscription statistics (active count, expired count, total revenue)
   3. Admin can manually grant a subscription to a user without payment (for influencers/partners)
   4. Admin can extend or revoke any user's subscription
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: TBD
+- [ ] 04-01-PLAN.md — Admin viewing: /admin menu, paginated subscriber list, subscription statistics
+- [ ] 04-02-PLAN.md — Admin management: grant free subscription, extend/revoke subscription
 
 ## Progress
 
@@ -89,5 +90,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Bot Foundation | 0/? | Complete    | 2026-03-12 |
 | 2. Payment and Channel Access | 0/? | Complete    | 2026-03-12 |
-| 3. Subscription Lifecycle | 1/2 | In progress | - |
-| 4. Admin Panel | 0/? | Not started | - |
+| 3. Subscription Lifecycle | 2/2 | Complete    | 2026-03-12 |
+| 4. Admin Panel | 0/2 | Not started | - |

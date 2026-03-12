@@ -27,20 +27,20 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### User Self-Service
 
-- [ ] **USR-01**: User can check subscription status (plan, expiry date) via /status or button
-- [ ] **USR-02**: User can view payment history via button
+- [x] **USR-01**: User can check subscription status (plan, expiry date) via /status or button
+- [x] **USR-02**: User can view payment history via button
 
 ### Subscription Lifecycle
 
 - [x] **LIFE-01**: Bot sends reminder 3 days before subscription expiry
 - [x] **LIFE-02**: Bot auto-kicks user from channel when subscription expires (ban + unban pattern)
 - [x] **LIFE-03**: Bot periodically sweeps channel for "ghost" members without active subscription
-- [ ] **LIFE-04**: Expired user can re-subscribe via /start and get new invite link
+- [x] **LIFE-04**: Expired user can re-subscribe via /start and get new invite link
 
 ### Admin Panel
 
-- [ ] **ADM-01**: Admin can view list of all subscribers (username, payment date, expiry date)
-- [ ] **ADM-02**: Admin can view subscription statistics (active count, expired count, total revenue)
+- [x] **ADM-01**: Admin can view list of all subscribers (username, payment date, expiry date)
+- [x] **ADM-02**: Admin can view subscription statistics (active count, expired count, total revenue)
 - [ ] **ADM-03**: Admin can manually grant subscription to a user without payment
 - [ ] **ADM-04**: Admin can extend or revoke a user's subscription
 
@@ -94,14 +94,14 @@ Which phases cover which requirements. Updated during roadmap creation.
 | ACC-01 | Phase 2 | Complete |
 | ACC-02 | Phase 2 | Complete |
 | ACC-03 | Phase 2 | Complete |
-| USR-01 | Phase 3 | Pending |
-| USR-02 | Phase 3 | Pending |
+| USR-01 | Phase 3 | Complete |
+| USR-02 | Phase 3 | Complete |
 | LIFE-01 | Phase 3 | Complete |
 | LIFE-02 | Phase 3 | Complete |
 | LIFE-03 | Phase 3 | Complete |
-| LIFE-04 | Phase 3 | Pending |
-| ADM-01 | Phase 4 | Pending |
-| ADM-02 | Phase 4 | Pending |
+| LIFE-04 | Phase 3 | Complete |
+| ADM-01 | Phase 4 | Complete |
+| ADM-02 | Phase 4 | Complete |
 | ADM-03 | Phase 4 | Pending |
 | ADM-04 | Phase 4 | Pending |
 | INFR-01 | Phase 1 | Complete |
