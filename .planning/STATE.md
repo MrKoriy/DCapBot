@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: in-progress
-last_updated: "2026-03-12T20:00:13Z"
+status: unknown
+last_updated: "2026-03-12T20:06:25.709Z"
 progress:
   total_phases: 2
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 4
-  completed_plans: 3
+  completed_plans: 4
 ---
 
 # Project State
@@ -22,32 +22,33 @@ See: .planning/PROJECT.md (updated 2026-03-12)
 
 ## Current Position
 
-Phase: 2 of 4 (Payment and Channel Access)
-Plan: 1 of 2 in current phase
-Status: Plan 02-01 Complete
-Last activity: 2026-03-12 -- Completed 02-01-PLAN.md
+Phase: 2 of 4 (Payment and Channel Access) -- COMPLETE
+Plan: 2 of 2 in current phase
+Status: Phase 02 Complete
+Last activity: 2026-03-12 -- Completed 02-02-PLAN.md
 
-Progress: [███░░░░░░░] 37%
+Progress: [█████░░░░░] 50%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: 1.3min
-- Total execution time: 4 min
+- Total plans completed: 4
+- Average duration: 1.5min
+- Total execution time: 6 min
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 2 | 3min | 1.5min |
-| 02 | 1 | 1min | 1min |
+| 02 | 2 | 3min | 1.5min |
 
 **Recent Trend:**
-- Last 5 plans: 01-01 (2min), 01-02 (1min), 02-01 (1min)
+- Last 5 plans: 01-01 (2min), 01-02 (1min), 02-01 (1min), 02-02 (2min)
 - Trend: stable
 
 *Updated after each plan completion*
+| Phase 02 P02 | 2min | 2 tasks | 7 files |
 
 ## Accumulated Context
 
@@ -65,6 +66,9 @@ Recent decisions affecting current work:
 - callback_data format plan:{index} for plan selection buttons, picked up by Phase 2 payment handler
 - bot_username added as Settings field for YooKassa return_url (simpler than fetching bot.me)
 - Placeholder email for 54-FZ receipt customer field in MVP (subscriber@example.com)
+- Fire-and-forget webhook: return HTTP 200 immediately, process via asyncio.create_task (Phase 2)
+- Unban-before-invite with 1s delay for Telegram to process unban (Phase 2)
+- allowed_updates must include chat_member for invite link revocation (Phase 2)
 
 ### Pending Todos
 
@@ -77,5 +81,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-12
-Stopped at: Completed 02-01-PLAN.md
+Stopped at: Completed 02-02-PLAN.md (Phase 02 complete)
 Resume file: None
