@@ -57,6 +57,45 @@ class ChannelAccessService:
         except Exception as exc:
             logger.warning("Failed to revoke invite link: %s", exc)
 
+    async def kick_user(self, user: User) -> None:
+        """Kick user from channel (ban + immediate unban so they can rejoin later)."""
+        settings = get_settings()
+        await self._bot.ban_chat_member(
+            chat_id=settings.channel_id,
+            user_id=user.telegram_id,
+        )
+        await self._bot.unban_chat_member(
+            chat_id=settings.channel_id,
+            user_id=user.telegram_id,
+            only_if_banned=True,
+        )
+        user.channel_banned = True
+        await self._session.flush()
+        logger.info("Kicked user %s (telegram_id=%d) from channel", user.username, user.telegram_id)
+
+    async def send_expiry_notification(self, user: User) -> None:
+        """Notify user that their subscription has expired."""
+        try:
+            await self._bot.send_message(
+                chat_id=user.telegram_id,
+                text="Ваша подписка истекла. Чтобы продлить доступ, используйте /start.",
+            )
+        except Exception as exc:
+            logger.warning("Failed to send expiry notification to %d: %s", user.telegram_id, exc)
+
+    async def send_reminder(self, user: User, expires_at: datetime) -> None:
+        """Send a reminder that the subscription is expiring soon."""
+        try:
+            await self._bot.send_message(
+                chat_id=user.telegram_id,
+                text=(
+                    f"Ваша подписка истекает {expires_at.strftime('%d.%m.%Y')}. "
+                    "Чтобы продлить, используйте /start."
+                ),
+            )
+        except Exception as exc:
+            logger.warning("Failed to send reminder to %d: %s", user.telegram_id, exc)
+
     async def send_invite_to_user(self, user: User, invite_link: str) -> None:
         """Send the invite link to the user as an inline button."""
         builder = InlineKeyboardBuilder()

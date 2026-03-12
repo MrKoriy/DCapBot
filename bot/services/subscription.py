@@ -32,3 +32,8 @@ class SubscriptionService:
             starts_at=starts_at,
             expires_at=expires_at,
         )
+
+    async def expire_subscription(self, subscription: Subscription) -> None:
+        """Mark a subscription as expired."""
+        subscription.status = "expired"
+        await self._session.flush()
