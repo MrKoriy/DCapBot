@@ -26,6 +26,11 @@ class Settings(BaseSettings):
     yookassa_secret_key: str
 
     @property
+    def database_url_sync(self) -> str:
+        """Sync DB URL for APScheduler's SQLAlchemyJobStore (needs psycopg2, not asyncpg)."""
+        return self.database_url.replace("postgresql+asyncpg://", "postgresql://")
+
+    @property
     def plans(self) -> list[dict[str, str | int]]:
         return [
             {"name": self.plan_1_name, "price": self.plan_1_price, "days": self.plan_1_days},
