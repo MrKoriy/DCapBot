@@ -1,0 +1,18 @@
+[Unit]
+Description=DCapBot Telegram Subscription Bot
+After=network.target postgresql.service
+
+[Service]
+Type=simple
+User=dcapbot
+Group=dcapbot
+WorkingDirectory=/opt/dcapbot
+Environment=PATH=/opt/dcapbot/.venv/bin:/usr/bin
+ExecStart=/opt/dcapbot/.venv/bin/python -m bot.main
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
