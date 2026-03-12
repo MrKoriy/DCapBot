@@ -41,8 +41,8 @@ Requirements for initial release. Each maps to roadmap phases.
 
 - [x] **ADM-01**: Admin can view list of all subscribers (username, payment date, expiry date)
 - [x] **ADM-02**: Admin can view subscription statistics (active count, expired count, total revenue)
-- [ ] **ADM-03**: Admin can manually grant subscription to a user without payment
-- [ ] **ADM-04**: Admin can extend or revoke a user's subscription
+- [x] **ADM-03**: Admin can manually grant subscription to a user without payment
+- [x] **ADM-04**: Admin can extend or revoke a user's subscription
 
 ### Infrastructure
 
@@ -102,8 +102,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LIFE-04 | Phase 3 | Complete |
 | ADM-01 | Phase 4 | Complete |
 | ADM-02 | Phase 4 | Complete |
-| ADM-03 | Phase 4 | Pending |
-| ADM-04 | Phase 4 | Pending |
+| ADM-03 | Phase 4 | Complete |
+| ADM-04 | Phase 4 | Complete |
 | INFR-01 | Phase 1 | Complete |
 | INFR-02 | Phase 1 | Complete |
 | INFR-03 | Phase 1 | Complete |
