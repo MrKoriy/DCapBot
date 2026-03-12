@@ -19,3 +19,12 @@ def plan_selection_keyboard() -> InlineKeyboardMarkup:
 
     builder.adjust(1)
     return builder.as_markup()
+
+
+def status_keyboard() -> InlineKeyboardMarkup:
+    """Inline keyboard shown on /status: payment history and renew buttons."""
+    builder = InlineKeyboardBuilder()
+    builder.button(text="История платежей", callback_data="payment_history")
+    builder.button(text="Продлить подписку", callback_data="renew")
+    builder.adjust(1)
+    return builder.as_markup()

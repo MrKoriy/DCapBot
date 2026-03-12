@@ -51,3 +51,18 @@ class PaymentRepository:
         payment.confirmed_at = datetime.utcnow()
         await self._session.flush()
         return payment
+
+    async def get_user_payments(
+        self, user_id: int, limit: int = 10
+    ) -> list[Payment]:
+        """Return last `limit` succeeded payments for a user, newest first."""
+        result = await self._session.execute(
+            select(Payment)
+            .where(
+                Payment.user_id == user_id,
+                Payment.status == "succeeded",
+            )
+            .order_by(Payment.created_at.desc())
+            .limit(limit)
+        )
+        return list(result.scalars().all())
