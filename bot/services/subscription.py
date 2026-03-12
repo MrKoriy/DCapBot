@@ -33,6 +33,11 @@ class SubscriptionService:
             expires_at=expires_at,
         )
 
+    async def extend_subscription(self, subscription: Subscription, days: int) -> None:
+        """Extend a subscription by the given number of days."""
+        subscription.expires_at += timedelta(days=days)
+        await self._session.flush()
+
     async def expire_subscription(self, subscription: Subscription) -> None:
         """Mark a subscription as expired."""
         subscription.status = "expired"
