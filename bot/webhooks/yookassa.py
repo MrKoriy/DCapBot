@@ -2,8 +2,6 @@ from __future__ import annotations
 
 import asyncio
 import logging
-from ipaddress import ip_address, ip_network
-
 from aiohttp import web
 from aiogram import Bot
 from sqlalchemy import select
@@ -18,26 +16,6 @@ from bot.services.channel import ChannelAccessService
 from bot.services.subscription import SubscriptionService
 
 logger = logging.getLogger(__name__)
-
-# YooKassa webhook source IP ranges (https://yookassa.ru/developers/using-api/webhooks)
-_YOOKASSA_IP_NETWORKS = [
-    ip_network("185.71.76.0/27"),
-    ip_network("185.71.77.0/27"),
-    ip_network("77.75.153.0/25"),
-    ip_network("77.75.156.11/32"),
-    ip_network("77.75.156.35/32"),
-    ip_network("77.75.154.128/25"),
-    ip_network("2a02:5180::/32"),
-]
-
-
-def _is_yookassa_ip(addr: str) -> bool:
-    """Check if the remote address belongs to YooKassa's webhook IP ranges."""
-    try:
-        ip = ip_address(addr)
-    except ValueError:
-        return False
-    return any(ip in network for network in _YOOKASSA_IP_NETWORKS)
 
 
 def _resolve_plan_by_name(plan_name: str) -> dict | None:
@@ -130,12 +108,6 @@ async def _process_payment(payment_id: str, bot: Bot) -> None:
 
 async def yookassa_webhook_handler(request: web.Request) -> web.Response:
     """Handle YooKassa webhook notification. Respond 200 immediately, process async."""
-    # IP allowlist: only accept webhooks from YooKassa IP ranges
-    remote_ip = request.remote
-    if remote_ip and not _is_yookassa_ip(remote_ip):
-        logger.warning("Webhook request from untrusted IP %s, rejecting", remote_ip)
-        return web.Response(status=403)
-
     try:
         body = await request.json()
     except Exception:
