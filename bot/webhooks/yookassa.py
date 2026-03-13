@@ -2,10 +2,13 @@ from __future__ import annotations
 
 import asyncio
 import logging
+from ipaddress import ip_address, ip_network
 
 from aiohttp import web
 from aiogram import Bot
 from sqlalchemy import select
+from yookassa import Configuration
+from yookassa import Payment as YkPayment
 
 from bot.config import get_settings
 from bot.db.engine import get_session_factory
@@ -16,15 +19,55 @@ from bot.services.subscription import SubscriptionService
 
 logger = logging.getLogger(__name__)
 
+# YooKassa webhook source IP ranges (https://yookassa.ru/developers/using-api/webhooks)
+_YOOKASSA_IP_NETWORKS = [
+    ip_network("185.71.76.0/27"),
+    ip_network("185.71.77.0/27"),
+    ip_network("77.75.153.0/25"),
+    ip_network("77.75.156.11/32"),
+    ip_network("77.75.156.35/32"),
+    ip_network("77.75.154.128/25"),
+    ip_network("2a02:5180::/32"),
+]
 
-async def _process_payment(payment_data: dict, bot: Bot) -> None:
-    """Process a confirmed payment: activate subscription and send invite link."""
+
+def _is_yookassa_ip(addr: str) -> bool:
+    """Check if the remote address belongs to YooKassa's webhook IP ranges."""
+    try:
+        ip = ip_address(addr)
+    except ValueError:
+        return False
+    return any(ip in network for network in _YOOKASSA_IP_NETWORKS)
+
+
+def _resolve_plan_by_name(plan_name: str) -> dict | None:
+    """Find a plan in settings by its name."""
+    settings = get_settings()
+    for plan in settings.plans:
+        if plan["name"] == plan_name:
+            return plan
+    return None
+
+
+async def _process_payment(payment_id: str, bot: Bot) -> None:
+    """Process a confirmed payment: verify via API, activate subscription, send invite."""
     settings = get_settings()
     session_factory = get_session_factory()
 
+    # Server-side verification: confirm payment status directly with YooKassa
+    Configuration.account_id = settings.yookassa_shop_id
+    Configuration.secret_key = settings.yookassa_secret_key
+    yk_payment = await asyncio.to_thread(YkPayment.find_one, payment_id)
+    if yk_payment.status != "succeeded":
+        logger.warning(
+            "YooKassa API says payment_id=%s status=%s, skipping",
+            payment_id,
+            yk_payment.status,
+        )
+        return
+
     async with session_factory() as session:
         payment_repo = PaymentRepository(session)
-        payment_id = payment_data["id"]
 
         # Idempotency check -- if already processed, skip
         existing = await payment_repo.find_by_payment_id(payment_id)
@@ -35,17 +78,19 @@ async def _process_payment(payment_data: dict, bot: Bot) -> None:
             logger.info("Duplicate webhook for payment_id=%s, skipping", payment_id)
             return
 
-        # TODO: For production, verify payment via YooKassa API:
-        # yk_payment = await asyncio.to_thread(YkPayment.find_one, payment_id)
-        # if yk_payment.status != "succeeded": return
-
         # Mark payment as succeeded
         await payment_repo.mark_succeeded(payment_id)
 
-        # Extract plan info from metadata
-        metadata = payment_data.get("metadata", {})
-        plan_index = int(metadata.get("plan_index", 0))
-        plan = settings.plans[plan_index]
+        # Use plan data from the local DB record (not from webhook metadata)
+        plan = _resolve_plan_by_name(existing.plan_name)
+        if plan is None:
+            logger.error(
+                "Unknown plan_name=%s for payment_id=%s",
+                existing.plan_name,
+                payment_id,
+            )
+            await session.commit()
+            return
 
         # Activate subscription
         sub_service = SubscriptionService(session)
@@ -85,6 +130,12 @@ async def _process_payment(payment_data: dict, bot: Bot) -> None:
 
 async def yookassa_webhook_handler(request: web.Request) -> web.Response:
     """Handle YooKassa webhook notification. Respond 200 immediately, process async."""
+    # IP allowlist: only accept webhooks from YooKassa IP ranges
+    remote_ip = request.remote
+    if remote_ip and not _is_yookassa_ip(remote_ip):
+        logger.warning("Webhook request from untrusted IP %s, rejecting", remote_ip)
+        return web.Response(status=403)
+
     try:
         body = await request.json()
     except Exception:
@@ -96,8 +147,12 @@ async def yookassa_webhook_handler(request: web.Request) -> web.Response:
         return web.Response(status=200)
 
     payment_data = body.get("object", {})
+    payment_id = payment_data.get("id")
+    if not payment_id:
+        return web.Response(status=400)
+
     bot = request.app["bot"]
 
     # Fire and forget -- respond 200 immediately to YooKassa
-    asyncio.create_task(_process_payment(payment_data, bot))
+    asyncio.create_task(_process_payment(payment_id, bot))
     return web.Response(status=200)
